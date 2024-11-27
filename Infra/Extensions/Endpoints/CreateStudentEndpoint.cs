@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MuayThaiClassesApi.Application.Dtos.Students;
 using MuayThaiClassesApi.Core.UseCases.Jwt;
 using MuayThaiClassesApi.Core.UseCases.Students;
+using MuayThaiClassesApi.Infra.Entities;
 using MuayThaiClassesApi.Infra.Extensions.Results;
 
 namespace MuayThaiClassesApi.Infra.Extensions.Endpoints
@@ -27,16 +28,18 @@ namespace MuayThaiClassesApi.Infra.Extensions.Endpoints
                         return new List<string> { "Email already in use" }.ToApiError(StatusCodes.Status409Conflict);
                     }
 
-                    await createStudentUseCase.Execute(new()
+                    var jwtVal = generateJwtUseCase.Execute(student.Email);
+
+                    await createStudentUseCase.Execute(new StudentsEntity
                     {
                         Name = student.Name,
                         Email = student.Email,
                         Password = student.Password,
                         RankId = 1,
-                        Jwt = generateJwtUseCase.Execute(student.Email)
+                        Jwt = jwtVal
                     });
 
-                    return new { }.ToApiResponse(StatusCodes.Status201Created);
+                    return new { token=jwtVal}.ToApiResponse(StatusCodes.Status201Created);
                 }
                 catch (Exception)
                 {

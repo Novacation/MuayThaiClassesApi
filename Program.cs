@@ -1,6 +1,5 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuayThaiClassesApi.Infra;
@@ -32,8 +31,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.PropertyNamingPolicy = null; });
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -54,4 +51,3 @@ app.UseHttpsRedirection();
 MapStudentsEndpoints.Execute(app.MapGroup("/api/students"));
 
 app.Run();
-
