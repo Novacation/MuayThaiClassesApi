@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MuayThaiClassesApi.Infra;
-using MuayThaiClassesApi.Infra.Extensions.Endpoints;
+using MuayThaiClassesApi.Infra.Extensions.Endpoints.Students;
 using MuayThaiClassesApi.Infra.Extensions.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -7,15 +7,16 @@ using MuayThaiClassesApi.Core.UseCases.Students;
 using MuayThaiClassesApi.Infra.Entities;
 using MuayThaiClassesApi.Infra.Extensions.ApiResponse;
 
-namespace MuayThaiClassesApi.Infra.Extensions.Endpoints;
+namespace MuayThaiClassesApi.Infra.Extensions.Endpoints.Students;
 
 public static class CreateStudentEndpoint
 {
     public static void MapEndpoint(RouteGroupBuilder app)
     {
-        app.MapPost("/create", async Task<IResult> (ICreateStudentUseCase createStudentUseCase,
-            IGenerateJwtUseCase generateJwtUseCase, IGetStudentByEmailUseCase getStudentByEmailUseCase,
-            [FromBody] CreateStudentDto student) =>
+        app.MapPost("/create", async Task<IResult> ([FromBody] CreateStudentDto student,
+            ICreateStudentUseCase createStudentUseCase,
+            IGenerateJwtUseCase generateJwtUseCase, IGetStudentByEmailUseCase getStudentByEmailUseCase
+        ) =>
         {
             try
             {
@@ -30,7 +31,7 @@ public static class CreateStudentEndpoint
                 }
 
                 var existingStudent = await getStudentByEmailUseCase.Execute(student.Email);
-                if (existingStudent != null)
+                if (existingStudent is not null)
                     return ApiResponse<object>.Failure(
                         new Error("Email conflict", "Email already in use"), StatusCodes
                             .Status409Conflict).ToHttpResponse();

@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MuayThaiClassesApi.Application.Dtos.Students;
 
-public class CreateStudentDto
+public class LoginStudentDto
 {
-    [Required] public required string Name { get; init; }
-
     [Required] public required string Email { get; init; }
 
     [Required] public required string Password { get; init; }
